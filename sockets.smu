@@ -1,0 +1,19 @@
+-- C definitions
+
+external connect_to_server : (cstr, int) -> int
+external send_message : (int, cstr) -> unit
+
+type socket = { fd : int }
+
+fun connect(host : string, port : int) -> socket =
+    {
+        fd = connect_to_server(host.cstr, port)
+    }
+
+fun send(sock : socket, str : string) -> unit =
+    send_message(sock.fd, str.cstr)
+
+-- Send hello world to echo server python script
+
+s = connect("127.0.0.1", 58790)
+send(s, "Hello world!")
